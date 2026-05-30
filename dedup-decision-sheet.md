@@ -42,3 +42,10 @@
 
 若您批准 #4，進入 PHASE 4 時我會對 SKILL.md 做 rewrite-shorter；
 若不批准（保持現狀），可直接跳到 PHASE 5 驗證，結論將是「無需變更，結構已最優」。
+
+---
+## PHASE 4 執行記錄
+
+| # | 動作 | 檔案 | 結果 |
+|---|---|---|---|
+| 4 | rewrite-shorter | /root/.claude/skills/session-start-hook/SKILL.md | 154行→66行（省88行） |
