@@ -1,0 +1,9 @@
+PROJECT_1 baseline — /home/user/amber — 2026-05-30
+===================================================
+Files that load into context at launch:
+  - NO CLAUDE.md
+  - NO CLAUDE.local.md
+  - NO .claude/ directory (no rules/, agents/, skills/, settings.json)
+  - NO auto-memory MEMORY.md
+
+Launch-full context from PROJECT_1: 0 lines / ~0 tokens

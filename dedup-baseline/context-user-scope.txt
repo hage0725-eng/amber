@@ -1,0 +1,17 @@
+USER_SCOPE baseline — 2026-05-30
+================================
+Files that load into context at launch:
+  - ~/.claude/settings.json (hook + permission config; NOT injected as context text)
+  - ~/.claude/skills/session-start-hook/SKILL.md (on-demand skill, NOT launch-full)
+  - NO CLAUDE.md (user-level)
+  - NO CLAUDE.local.md
+  - NO .claude/rules/
+  - NO .claude/agents/
+  - NO auto-memory MEMORY.md
+  - NO managed policy (/etc/claude-code/ does not exist)
+
+Launch-full context from USER_SCOPE: 0 lines / ~0 tokens
+(settings.json is config, not injected prose; skill is on-demand)
+
+Stop hook registered: ~/.claude/stop-hook-git-check.sh
+Permissions allow: ["Skill"]

@@ -1,0 +1,5 @@
+USER_SCOPE /memory baseline — 2026-05-30
+========================================
+Actual launch-loaded files: (none)
+  - settings.json → config only, not prose context
+  - skills/session-start-hook/SKILL.md → on-demand (skill), not loaded at launch
