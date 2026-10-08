@@ -1,0 +1,9 @@
+#!/bin/sh
+# 每次 commit 前自動跑回歸守門；紅燈就擋下。
+cd "$(git rev-parse --show-toplevel)" || exit 1
+export PYTHONUTF8=1 PYTHONIOENCODING=utf-8
+if [ -f .githooks/python_path ]; then PY="$(cat .githooks/python_path)"
+elif command -v python3 >/dev/null 2>&1; then PY=python3
+elif command -v py >/dev/null 2>&1; then PY="py -3"
+else PY=python; fi
+$PY tools/gate.py || { echo "gate 紅燈，commit 已擋下（修好再提交）"; exit 1; }

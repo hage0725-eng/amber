@@ -1,0 +1,39 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"$CLAUDE_PROJECT_DIR/tools/hook_gate.py\"",
+            "timeout": 600
+          }
+        ]
+      }
+    ]
+  },
+  "env": {
+    "PYTHONUTF8": "1",
+    "PYTHONIOENCODING": "utf-8"
+  },
+  "permissions": {
+    "allow": [
+      "Bash(python tools/gate.py*)",
+      "Bash(python tools/check_report.py*)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)"
+    ],
+    "deny": [
+      "Edit(**/tests/golden/**)",
+      "Bash(rm *tests/golden*)"
+    ],
+    "ask": [
+      "Edit(**/tests/approved.yaml)",
+      "Edit(**/core/rules.yaml)",
+      "Bash(python tools/make_golden.py*)",
+      "Bash(git commit*--no-verify*)"
+    ]
+  }
+}

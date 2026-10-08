@@ -1,0 +1,13 @@
+# Amber 核定值（凍結）。G6 邊界案例以此為準，不從 rules.yaml 推。
+# 只有經 /ruling 登錄、Amber 確認後才可修改本檔。
+approved_on: 2026-10-08
+thresholds:
+  sample: {delay_days: 14, warning_days: 10}
+  bulk:   {delay_days: 30, warning_days: 21}
+grace_days: 2
+sample_codes: ["85", "86", "87"]
+bulk_codes: ["88"]
+# R-1008-1：三欄統一 raw；10/7 以前 過1.9 為 floor
+positive_test: {over_std: raw, over_kh: raw, over_1p9: raw}
+positive_test_before_1008: {over_1p9: floor}
+priority_codes: ["KN", "LL", "XLBT"]

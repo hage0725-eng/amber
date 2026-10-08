@@ -1,0 +1,143 @@
+# ============================================================
+# paiho-core 共用規則庫 — 唯一權威來源（single source of truth）
+# 各 skill 一律從這裡讀規則，不得自帶副本。
+# 修改規則：改這個檔 → 跑 python tools/gate.py → 全綠才可 commit。
+# 每條規則必須帶 id（裁示編號）、by（誰裁示）、date（裁示日）。
+# ============================================================
+version: "2026-10-08.1"
+
+# ---------- 訂單類別（依 # 欄） ----------
+order_class:
+  sample: ["85", "86", "87"]     # 樣品
+  bulk: ["88"]                   # 量產
+  forecast: ["89"]               # 預告
+
+# ---------- daily-progress-review：異常等級門檻 ----------
+dpr:
+  thresholds:
+    sample:  {delay_days: 14, warning_days: 10}
+    bulk:    {delay_days: 30, warning_days: 21}
+  # 天數欄 > 此值視為 Excel 日期序號（=未填，TODAY()-0）
+  serial_cutoff: 365
+  # 寬限期：下單 ≤ N 天 且 生管回覆1.9 空白 → OK
+  grace_days: 2
+
+  # 「逾期 > 0」怎麼判：raw＝原值 > 0（0.34 天也算，顯示「0天」）；floor＝取整後 > 0
+  # R-1008-1（Amber 2026-10-08）：三欄統一用 raw（內部從嚴）
+  positive_test:
+    over_std: raw
+    over_kh: raw
+    over_1p9: raw
+  # 舊口徑保留，讓 10/8 以前的報告仍能重現（黃金樣本 0818/0916 照舊對帳）
+  positive_test_history:
+    - {field: over_1p9, mode: floor, until: 2026-10-07, note: "R-1008-1 前 過1.9 用取整"}
+
+  # 89 預告不列進度異常（R-v522-2，Amber 2026-07-14）
+  forecast_excluded:
+    id: R-v522-2
+    by: Amber
+    date: 2026-07-14
+    effective_from: 2026-07-14
+
+  # 訂單號含代碼 → ⭐最優先，強制 DELAY＋🔴 並覆蓋寬限
+  # 比對方式＝訂單號「包含」（XLBT-2608257、...-220KNKH 都算）
+  # 生效日定案 2026-07-14（R-1008-2）：R-v522-1/2 當天已寫「89 不帶⭐/🆘」，⭐/🆘 最晚此日已存在
+  priority_suffix:
+    id: DPR-PRIO
+    by: Amber
+    effective_from: 2026-07-14
+    match: contains
+    suffixes:
+      KN: "KN客訴"
+      LL: "LL重做"
+      XLBT: "XLBT異常處理"
+
+  # 缺紗 + 停滯（今日=昨日 且 更動=否）→ 🆘 重大異常，強制 DELAY＋🔴 並覆蓋寬限
+  yarn_plus_stall_escalate:
+    id: DPR-SOS
+    by: Amber
+    effective_from: 2026-07-14
+
+  test_result:
+    delay: ["F"]                 # 測試FAIL
+    warning: ["Q"]               # 特採出貨
+    potential: ["T", "0", "B"]   # 測試中 / 無報告 / 測試後補
+    known: ["F", "Q", "T", "0", "B", "P", "C", ""]
+
+  # 製程站別碼（R-0904-2，Amber 2026-09-04）
+  process_station:
+    id: R-0904-2
+    by: Amber
+    date: 2026-09-04
+    codes:
+      "92": 卷紗
+      "93": 織造
+      "94": 染色
+      "95": 胚帶後製程
+      "96": 打束頭
+      "97": 品檢包裝
+      "98": 特殊加工
+
+  # DGT 雙軌（daily-progress-review skill 已寫入）
+  dgt:
+    prefix: "DGT"
+    lt_days: 21
+    exclude_from_sample_otd_denominator: true
+    delay_status_keywords: ["退", "收退"]
+
+# ---------- 材料範圍（forecast-prep-review，2026-09-11 裁示） ----------
+material_scope:
+  exclude_name_keywords:
+    id: FPR-0911-MAT
+    by: Amber
+    date: 2026-09-11
+    keywords: ["upper", "mesh", "tricot", "knitwear"]
+  exclude_codes:
+    - {code: "TZ 00351 A", reason: "不能生產", date: 2026-09-11}
+    - {code: "FT 00074", reason: "不備料", date: 2026-09-11}
+
+# ---------- adidas 備料%（2026-09-30 裁示） ----------
+prep_ratio:
+  hook_loop_prefixes: ["39", "86"]
+  hook_loop_black_white: 1.00
+  hook_loop_color: 0.70
+  bomx_hook_loop_split: {hook: 0.5, loop: 0.5}
+
+# ---------- 客戶 / 廠代號 ----------
+customers:
+  adidas_factory_codes:
+    HLX_HLA: ["011591", "011594", "011670", "011671", "011673"]
+  groups:
+    ALENA: ["011591", "011594"]
+    ALIVIA: ["011670", "011671", "011673"]
+  dormant_policy: "停用『A.超過一年』者納入群組並標記 dormant，不刪除"
+
+# ---------- 交付慣例 ----------
+delivery:
+  company_name_zh: "百和"
+  freeze_panes: false
+  show_gridlines: true
+  table_border: black
+  date_format_short: "M/D"
+
+# ---------- 自動化流程（flow）：進件健檢 → 拆檔分派 → 收回合併 ----------
+flow:
+  intake:                       # 閘門 A：ERP 彙總原檔健檢（班長 8:00–9:30 產出）
+    sheet: "統整"
+    required_columns: ["客戶", "訂單號碼", "#", "料號", "色號", "生產天數", "今日進度",
+                       "昨日進度", "進度狀況是否更動", "測試結果", "過客人交期天數",
+                       "已完成訂單", "業務", "助理"]
+    dedup_key: ["訂單號碼", "#2", "料號", "色號", "#"]
+    max_row_change_ratio: 0.15  # 與上一份通過的原檔相比，筆數變動超過 15% 停線
+    max_blank_order_ratio: 0.01 # 空白訂單號（R-0820-2 匯出端異常）超過 1% 停線
+    max_dup_ratio: 0.01         # 重複鍵超過 1% 停線（常態約 0.1%）
+    min_numeric_prod_days: 0.95 # 生產天數可轉數字比例
+    max_file_age_hours: 6       # 檔案修改時間距離執行時間超過 6 小時＝不是今天的檔
+  backfill:
+    # 須人工回填的分頁（R-0904-3 回填區）；7w 無回填欄，留給 Amber
+    sheets: ["4.", "4b.", "6.", "6b.", "6c.", "8."]
+    fill_columns: ["異常原因檢查", "處理方式和結果", "憑證單號", "NT/NS判定", "備註"]
+    required_columns: ["異常原因檢查", "處理方式和結果"]   # 兩欄都填才算「已回填」
+    owner_columns: ["助理", "業務"]   # 先看助理，沒有再看業務，都沒有＝未指派
+    unassigned: "未指派 Chưa phân công"
+    protect_password: "paiho"   # 只防誤改，不是資安；竄改另由簽章比對抓

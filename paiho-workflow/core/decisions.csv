@@ -1,0 +1,10 @@
+id,date,by,content,affects,status,note
+R-v522-2,2026-07-14,Amber,89預告一律不列進度異常、不帶⭐/🆘，統計排除,daily-progress-review,已落地,rules.yaml dpr.forecast_excluded
+R-0904-2,2026-09-04,Amber,製程站別 92卷紗/93織造/94染色/95胚帶後製程/96打束頭/97品檢包裝/98特殊加工,daily-progress-review,已落地,rules.yaml dpr.process_station
+DPR-PRIO,2026-07-14,Amber,訂單號含 KN/LL/XLBT → ⭐最優先，強制 DELAY＋🔴，覆蓋寬限,daily-progress-review,已落地,生效日依 R-1008-2 定案 7/14
+DPR-SOS,2026-07-14,Amber,缺紗＋連續停滯 → 🆘，強制 DELAY＋🔴，覆蓋寬限,daily-progress-review,已落地,生效日依 R-1008-2 定案 7/14
+FPR-0911-MAT,2026-09-11,Amber,BOMx 品名含 upper/mesh/tricot/knitwear 不計備料；TZ 00351 A、FT 00074 不備料,forecast-prep-review,已落地,rules.yaml material_scope
+FPR-0930-PREP,2026-09-30,Amber,黏扣帶(39/86)黑白100%、彩色70%；H&L 各×50%,forecast-prep-review,已落地,rules.yaml prep_ratio
+R-1008-1,2026-10-08,Amber,過標準交期／過客戶交期／過1.9交期 統一用原值>0（內部從嚴）；10/7 以前報告沿用舊口徑重現,daily-progress-review,已落地,rules.yaml dpr.positive_test＋positive_test_history；0916 試算影響 10 筆（7 POTENTIAL→WARNING、3 WARNING→DELAY）；Project 內 DPR v3.5 須同步
+R-1008-2,2026-10-08,Amber 授權 Claude 定案,DPR-PRIO／DPR-SOS 生效日定 2026-07-14,daily-progress-review,已落地,依據：R-v522-1/2（7/14）已寫「89 不帶⭐/🆘」；6/27–7/13 間無報告可佐證，對現有黃金樣本無差異
+Q-1008-1,2026-10-08,Claude,Project 內 daily-progress-review v3.5 的過1.9口徑尚未改為 raw，10/8 起 check_report 會報差異,daily-progress-review,已裁示,需在 Project 規格快照同步 R-1008-1；同步稿 specs/DPR_v3.5_過1.9口徑_R-1008-1.md 已備（10/8），待貼入 Project 後改已落地
