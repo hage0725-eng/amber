@@ -1,0 +1,20 @@
+--- a/build_dpr.py	2026-10-08 04:24:12.738552973 +0000
++++ b/build_dpr.py	2026-10-08 04:24:12.757319262 +0000
+@@ -228,6 +228,7 @@
+ # ---------- R-v551-2：ERP 天數欄三態編碼 ----------
+ ERP_DAYS_COLS = (36, 37, 38)
+ ERP_DEGENERATE_MIN = 365          # > 365 ＝ TODAY() 退化序號
++R1008_1_FROM = datetime.date(2026, 10, 8)   # R-1008-1 生效日：過1.9 由取整>0 改原值>0
+ 
+ 
+ def erp_days(v):
+@@ -680,7 +681,8 @@
+     _st37, _d37 = erp_days(r[37])
+     o19 = _d37 or 0
+     o19_status, o19_note = None, ''
+-    if _st37 == 'over' and o19 > 0:
++    # R-1008-1（Amber 2026-10-08）：過1.9 改原值>0（0.38 天也算，顯示「0天」）；10/7 以前沿用取整舊口徑
++    if _st37 == 'over' and (TODAY >= R1008_1_FROM or o19 > 0):
+         h = as_date(r[7])
+         if h is None:
+             o19_status = 'delay'

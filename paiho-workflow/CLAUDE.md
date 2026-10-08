@@ -17,6 +17,7 @@ Amber Lin（越南百和 北區業務經理）的規則庫與自動化。對話�
 7. 越南現場：異常一律框定為流程缺口，不指向個人；副總層只用客戶簡稱。
 8. 回填合併只寫「回填欄」；驗證失敗程式會中止，不得手動補救後交出。
 9. 給組員的越文說明一律正式語氣。
+10. dpr_v35/ 是 Project DPR 的冷備鏡像：不得在這裡改判定邏輯；DPR 規則以 Project 現行版為準，本 repo 的 rules.yaml 只做第二意見。
 
 ## 檔案地圖
 | 路徑 | 用途 |
@@ -31,6 +32,7 @@ Amber Lin（越南百和 北區業務經理）的規則庫與自動化。對話�
 | flow/intake.py | 閘門 A：班長 ERP 原檔健檢（停線才找 Amber） |
 | flow/backfill.py | 回填拆檔（每助理一份）／收回合併（只寫回填欄、逐格驗證） |
 | flow/digest.py | 給 Amber 的每日摘要 |
+| dpr_v35/ | DPR v3.5 規格 v572、builder v587、字典 v85、NT/NS v505、rollback（缺主程式 dpr_suite.py，見 dpr_v35/README.md） |
 | tests/approved.yaml | Amber 核定門檻（凍結；G6 邊界案例以此為準，改動須經 /ruling＋Amber 確認） |
 
 ## 指令

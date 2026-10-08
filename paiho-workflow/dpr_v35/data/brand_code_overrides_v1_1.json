@@ -1,0 +1,180 @@
+{
+ "version": "v1.5",
+ "since_date": "2026-06-11",
+ "count": 3,
+ "description": "STEP 0E 品牌-PM enrich 的人工覆蓋層。當 T組/T1組客戶清冊「品牌」欄空白時，改由本表補入品牌代碼，再交給 brands品牌代碼對照表.XLS 推導品牌名稱+PM。brand_code 為權威鍵；_ref_* 欄僅供稽核閱讀，名稱/PM 一律以對照表為準（避免 single-source 分歧）。",
+ "lookup_order": [
+  "1. 客戶清冊『品牌』欄（若有值，直接採用，不查本表）",
+  "2. 本覆蓋表 overrides[客戶代碼].brand_code（客戶清冊空白時）",
+  "3. 仍無 → 維持空白 → 列入 Sheet 7w 品牌空白客戶"
+ ],
+ "key_format": "客戶代碼 6 碼零填，str(int(float(x))).zfill(6)",
+ "overrides": {
+  "021280": {
+   "brand_code": "0A6",
+   "_ref_brand_name": "BROOKS FOOTWEAR",
+   "_ref_brand_pm": "江忠穎",
+   "_ref_cust_short": "BESTELLAR",
+   "_ref_cust_full": "BESTELLAR DEVELOPMENT CO., LTD ( BROOKS - MAU )",
+   "team": "T",
+   "reason": "客戶清冊『品牌』欄空白；BESTELLAR 為 BROOKS 樣品(MAU)客戶，歸 0A6 BROOKS FOOTWEAR",
+   "source": "Amber Lin 人工確認",
+   "date": "2026-06-11"
+  },
+  "192789": {
+   "brand_code": "086",
+   "_ref_brand_name": "COACH",
+   "_ref_brand_pm": "業務直接開發·無PM(COACH鞋業)",
+   "_note": "Amber 0627: COACH鞋業,無開發經理人負責,業務直接開發",
+   "since": "2026-06-27"
+  },
+  "192581": {
+   "brand_code": "231",
+   "_ref_brand_name": "NIKE FOOTWEAR (MSO)",
+   "_ref_brand_pm": "戴任宏",
+   "_ref_cust_short": "OIA GLOBAL",
+   "team": "T",
+   "reason": "客戶清冊「品牌」欄空白；Amber 於 0827 回傳檔 7w 分頁「品牌代碼(覆蓋後)」欄直接填 231",
+   "source": "Amber 林彥博 0827 Sheet7w 回填（具名裁決·解除「192581/192582 凍結·禁自行新增」）",
+   "rule": "R-0827-3",
+   "date": "2026-08-27",
+   "_still_frozen": "192582 未獲回填，維持凍結",
+   "_ref_brand_pm_source_table": "nn027（brands品牌代碼對照表.XLS 第 403 列原值·帳號碼）",
+   "_ref_brand_pm_ruling": "Amber 林彥博 2026-08-27「A2-戴任宏」→ nn027 = 戴任宏（R-0827-3 補正）",
+   "_residual_note": "⚠️ 本次僅修正 192581 之顯示（builder enrich(): src=覆蓋表 時 _ref_brand_pm 優先於對照表）。brands品牌代碼對照表.XLS 內 231 之主管欄仍為 nn027 —— 若日後有客戶經**客戶清冊**（非覆蓋表）取得品牌 231，PM 仍會顯示 nn027。根治需 ERP／對照表端更新。本檔現無此情形（清冊中品牌=231 者 0 筆）。"
+  }
+ },
+ "updated": "2026-09-16",
+ "_pack_note": "⚠️ 本檔檔名固定為 brand_code_overrides_v1_1.json（build_dpr.py 硬編讀取），內容升版無法被 R-v555-1 降版閘門辨識 → 修改後必須立即 `dpr_suite.py pack` 重打包，否則下次 preflight 之 restore() 會依雜湊不符將其還原為舊版（0827 實測發生一次）。★ 2026-08-27 經 Amber「A4-1」立為 **R-0827-4**（轉正·永久），並由第 20 棒 dpr_regression_v0827_pack_sync.py 逐輪驗證；順序固定：修改 → pack → stamp → build/gate。",
+ "suppress_7w": {
+  "161560": {
+   "_ref_cust_short": "POLYWELL",
+   "team": "T",
+   "reason": "已確認本來就無品牌線（行業 L.成衣·非鞋業品牌客）",
+   "evidence": "原始清冊 T組客戶.XLS 品牌欄空白；T組客戶群組表_v1_1 2.代碼明細 品牌碼=(無品牌碼) —— 兩條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「C5入白名單」",
+   "rule": "R-0916-4",
+   "date": "2026-09-16"
+  },
+  "180546": {
+   "_ref_cust_short": "ROLL SPORT",
+   "team": "T",
+   "reason": "已確認本來就無品牌線（NOBULL 樣品線·對照表無對應品牌碼）",
+   "evidence": "原始清冊 T組客戶.XLS 品牌欄空白；T組客戶群組表_v1_1 2.代碼明細 品牌碼=(無品牌碼) —— 兩條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「C5入白名單」",
+   "rule": "R-0916-4",
+   "date": "2026-09-16"
+  },
+  "020571": {
+   "_ref_cust_short": "BA NGOI SA",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "051100": {
+   "_ref_cust_short": "E.W.YEN",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "070710": {
+   "_ref_cust_short": "TRI VIET",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "081570": {
+   "_ref_cust_short": "HAMECO",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "083120": {
+   "_ref_cust_short": "HSE",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "131021": {
+   "_ref_cust_short": "MSA-HAPRO",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "131554": {
+   "_ref_cust_short": "MAXPORT CK",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "131640": {
+   "_ref_cust_short": "MXP",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "141700": {
+   "_ref_cust_short": "NGUYEN ANH",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "192101": {
+   "_ref_cust_short": "SAO VIET",
+   "team": "T1",
+   "reason": "自行開發·本來就無品牌線（TỰ KHAI THÁC）",
+   "raw_backfill": "TỰ KHAI THÁC",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  },
+  "070874": {
+   "_ref_cust_short": "VICTORY",
+   "team": "T1",
+   "reason": "無品牌·替客戶裁膠頭開票用之服務性客戶碼",
+   "raw_backfill": "không thương hiệu, lập mã k/h để chặt đầu keo cho k/h để k/h xuất hoá đơn trả tiền",
+   "evidence": "T1組客戶清冊(0916·69欄) 品牌欄空白；品牌主檔 品牌代號清冊 9.16 無對應碼；Amber 2026-09-16 於 7w 分頁書面回填 —— 三條獨立路徑一致",
+   "source": "Amber 林彥博 2026-09-16「T1-J 入」",
+   "rule": "R-0916-28",
+   "date": "2026-09-16"
+  }
+ },
+ "_suppress_7w_note": "R-0916-4（Amber 0916「C5入白名單」）：名列者不進 7w 計數，但必須於 7w 分頁末段具名列示。★ 抑制≠隱藏 —— 白名單本身要看得見，否則下次無人記得為何不報。新增條目一律需 Amber 具名裁示，且須附兩條獨立路徑之佐證（清冊＋群組表）。 ｜ R-0916-28（0916）：T1組 11 家入冊（2 → 13）。抑制≠隱藏 —— 名列者不進 7w 計數，但於分頁末段具名列示並附理由，豁免永遠可稽核。"
+}

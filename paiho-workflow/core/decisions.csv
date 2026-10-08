@@ -7,4 +7,6 @@ FPR-0911-MAT,2026-09-11,Amber,BOMx 品名含 upper/mesh/tricot/knitwear 不計�
 FPR-0930-PREP,2026-09-30,Amber,黏扣帶(39/86)黑白100%、彩色70%；H&L 各×50%,forecast-prep-review,已落地,rules.yaml prep_ratio
 R-1008-1,2026-10-08,Amber,過標準交期／過客戶交期／過1.9交期 統一用原值>0（內部從嚴）；10/7 以前報告沿用舊口徑重現,daily-progress-review,已落地,rules.yaml dpr.positive_test＋positive_test_history；0916 試算影響 10 筆（7 POTENTIAL→WARNING、3 WARNING→DELAY）；Project 內 DPR v3.5 須同步
 R-1008-2,2026-10-08,Amber 授權 Claude 定案,DPR-PRIO／DPR-SOS 生效日定 2026-07-14,daily-progress-review,已落地,依據：R-v522-1/2（7/14）已寫「89 不帶⭐/🆘」；6/27–7/13 間無報告可佐證，對現有黃金樣本無差異
-Q-1008-1,2026-10-08,Claude,Project 內 daily-progress-review v3.5 的過1.9口徑尚未改為 raw，10/8 起 check_report 會報差異,daily-progress-review,已裁示,需在 Project 規格快照同步 R-1008-1；同步稿 specs/DPR_v3.5_過1.9口徑_R-1008-1.md 已備（10/8），待貼入 Project 後改已落地
+Q-1008-1,2026-10-08,Claude,Project 內 daily-progress-review v3.5 的過1.9口徑尚未改為 raw，10/8 起 check_report 會報差異,daily-progress-review,已裁示,需在 Project 規格快照同步 R-1008-1；修正稿 specs/DPR_v3.5_過1.9口徑_R-1008-1.md＋build_dpr_R-1008-1.patch 已備（10/8），待套進 Project 並跑 dpr_suite gate 後改已落地
+R-1008-3,2026-10-08,Amber,影子期摘要通知＝手機推播＋開對話窗（每次排程自成一個可對話的工作階段），不寄 Email,flow,已落地,flow/SCHEDULE.md 排程定義 notifications=push
+R-1008-4,2026-10-08,Amber,組員端通知方式（Gmail 寄送與否）延到影子期結束再定；01 inbox 權限開給班長待 Amber 評估,flow,待裁示,影子期期間組員不收任何自動檔

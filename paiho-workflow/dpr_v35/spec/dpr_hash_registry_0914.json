@@ -1,0 +1,37 @@
+{
+ "stamped": "2026-09-14 02:11:23.134548",
+ "snapshot": 572,
+ "architecture": "suite-v528",
+ "suite_version": 594,
+ "pack_covered": [
+  "SKILL_v3_5_完整規格_權威自足版_v572.md",
+  "brand_code_overrides_v1_1.json",
+  "build_dpr.py",
+  "dict_v14_codec.py",
+  "dpr_regression_live_common.py",
+  "ntns_dict_v499.json",
+  "sheet6_6b_結案白名單_v3.json",
+  "xlrd.py",
+  "回填原因處置字典_v74_columnar.json"
+ ],
+ "versions": {
+  "dpr_suite.py": 594,
+  "build_dpr.py": 578,
+  "dict_v14_codec.py": 14,
+  "SKILL_v3_5_完整規格_權威自足版_v572.md": 572,
+  "回填原因處置字典_v74_columnar.json": 74,
+  "ntns_dict_v499.json": 499,
+  "sheet6_6b_結案白名單_v3.json": 3,
+  "brand_code_overrides_v1_1.json": 1
+ },
+ "hashes": {
+  "dpr_suite.py": "3e51d2b7ae346e2272ace0cf47a59020b44724619f83a1b07313c21b1725be2b",
+  "build_dpr.py": "36406515ffb8eabd6777c2bfec3f75d82c0c244f9965b98bffb9a5b50e9cb07f",
+  "dict_v14_codec.py": "884bf07358cd6b28ac3ca0af38ba6b2dba20ce08dc9185bbcecf11f228df740b",
+  "SKILL_v3_5_完整規格_權威自足版_v572.md": "997bd46d8cd043f26c7e6160b8b58c3394189f7efbf844e5754951a04e70a16e",
+  "回填原因處置字典_v74_columnar.json": "34facd1fb99e95982a94839e5ea01143f2ef54a3e78421e29c0ee6286a648079",
+  "ntns_dict_v499.json": "940c8416c29ba9fcef57d545c07b0fd7b2c41264fa31c7a64b31a27305723ab3",
+  "sheet6_6b_結案白名單_v3.json": "df44baa4845184e8dd2a7dd969671c37d0ef9191836fad58fa4211ad4d9183d7",
+  "brand_code_overrides_v1_1.json": "7b2f26103c701919483fb654a3d6cf9f982933376912abcb2ea8c55a5b28c88a"
+ }
+}

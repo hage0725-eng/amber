@@ -5,3 +5,7 @@
 *.md text eol=lf
 *.csv text eol=lf
 *.gz binary
+*.xz binary
+*.XLS binary
+*.xls binary
+*.xlsx binary
